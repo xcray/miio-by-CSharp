@@ -10,14 +10,19 @@ miio协议的中文补充信息，以及C#测试程序
 2、关于消息体中的md5sum字段，原说明也存在错误，虽然有大侠指出但说明依然不够清晰。应该先用正确的头部（2131+包长）+ unkown（00000000）+ DID + stamp + token + 加密后的载荷，计算出MD5后，替换掉token字段。然后就可以发到设备侧了。
 
 3、关于stamp，其实这个字段非常重要，但原说明未清晰描述。根据我用智能插座分析的结论，设备在插电后从0开始计算秒数，作为设备发出的stamp。控制设备的指令中的stamp应与设备内的计数器数值（就是设备发出的stamp）差不多才行（比如简单+1），否则设备会认为收到的指令无效。
+
 实际上，不管是手机上的客户端，还是那个rytilahti/python-miio，在向设备发出控制或查询指令前，都会先发一条InitialHello（就是那串21310020FFFFFFFFFF...），从设备回复的Hello中获取到设备发出的stamp（当然，还可以同时获得token和DID），然后+1用作指令消息的stamp。
 
 4、智能插座（基础版，V1）支持的指令载荷有（xxx为消息ID，整数，客户端自主控制，设备回复使用同样的ID以便客户端识别顺寻）：
-  - 状态读取：{"id":xxx,"method":"get_prop","params":["on","usb_on","temperature"]}，插座回复 {"result":[true,true,41],"id":xxx}，即220v开关状态、USB开关状态，以及温度。
-  - 220v打开：{"id":xxx,"method":"set_on","params":[]} 或 {"id": 1, "method": "set_power", "params": ["on"]}，两种格式都可以，手机客户端用的是前者，python-miio用的是后者。220v关闭就是里面的“on”改为“off”。
-  - USB打开：{"id":xxx,"method":"set_usb_on","params":[]}，同样关闭对应着“off”，这是手机客户端使用的，python-miio貌似不支持USB控制。
+
+- 状态读取：{"id":xxx,"method":"get_prop","params":["on","usb_on","temperature"]}，插座回复 {"result":[true,true,41],"id":xxx}，即220v开关状态、USB开关状态，以及温度。
+
+- 220v打开：{"id":xxx,"method":"set_on","params":[]} 或 {"id": 1, "method": "set_power", "params": ["on"]}，两种格式都可以，手机客户端用的是前者，python-miio用的是后者。220v关闭就是里面的“on”改为“off”。
+
+- USB打开：{"id":xxx,"method":"set_usb_on","params":[]}，同样关闭对应着“off”，这是手机客户端使用的，python-miio貌似不支持USB控制。
 
 5、基础版插座（WiFi）我手上有2个版本：带USB的PlugV1和不带USB的Plug。其中PlugV1可以如此自动获取到token，不带USB的不行（只能通过备份文件获取）。
+
 其他设备如空气净化器（第一版）、多功能网关（第二版，lumi-gateway-v3）也可以获取到，扫地机器人不行。估计与采用的wifi模块有关系。
 
 6、其他待补充
