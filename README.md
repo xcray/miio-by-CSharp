@@ -1,4 +1,4 @@
-# miio-by-C-
+# miio-by-C#
 miio协议的中文补充信息，以及C#测试程序
 首先感谢OpenMiHome的miio-binary-protocol（https://github.com/OpenMiHome/mihome-binary-protocol/blob/master/doc/PROTOCOL.md）！
 但是有些遗憾，其中的有些信息存在小的错误，有些重要的信息没有提供。
@@ -13,7 +13,7 @@ miio协议的中文补充信息，以及C#测试程序
 
 实际上，不管是手机上的客户端，还是那个rytilahti/python-miio，在向设备发出控制或查询指令前，都会先发一条InitialHello（就是那串21310020FFFFFFFFFF...），从设备回复的Hello中获取到设备发出的stamp（当然，还可以同时获得token和DID），然后+1用作指令消息的stamp。
 
-4、智能插座（基础版，V1）支持的指令载荷有（xxx为消息ID，整数，客户端自主控制，设备回复使用同样的ID以便客户端识别顺寻）：
+4、智能插座（基础版，V1）支持的指令载荷有（xxx为消息ID，整数，客户端自主控制，设备回复使用同样的ID以便客户端识别顺序）：
 
 - 状态读取：{"id":xxx,"method":"get_prop","params":["on","usb_on","temperature"]}，插座回复 {"result":[true,true,41],"id":xxx}，即220v开关状态、USB开关状态，以及温度。
 
