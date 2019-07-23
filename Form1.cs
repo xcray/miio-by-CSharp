@@ -155,12 +155,16 @@ namespace miio
                     if (udpcMiio.Available <= 0) { System.Threading.Thread.Sleep(1000); continue; }
                     byte[] bytRecv = udpcMiio.Receive(ref remoteIpep);
                     string recmes =byteToHexStr(bytRecv);
+                    AddMessage(tbInfo, "接收到：" + recmes);
                     if (waitfortoken && (recmes.StartsWith("2131002000000000")))
                     {
                         waitfortoken = false;
                         if ((recmes.Substring(32).StartsWith("FFFFFFFFFFFFFFFFFFFFF"))|| (recmes.Substring(32).StartsWith("000000000000000000000")))
                                 {
-                            AddMessage(tbInfo, "Token获取失败，需尝试其它获取方法（如备份数据）");
+                            AddMessage(tbInfo, "Token获取失败，需尝试其它获取方法（如米家App）");
+                            tstamp = Int32.Parse(recmes.Substring(24, 8), System.Globalization.NumberStyles.HexNumber);
+                            AddMessage(tbInfo, "获取到DID：" + recmes.Substring(16, 8) +"；和tstamp："+tstamp);
+                            ShowMessage(tbDid, recmes.Substring(16, 8));
                             continue;
                                 }
                         ShowMessage(tbToken, recmes.Substring(32));
@@ -178,7 +182,7 @@ namespace miio
 
         private void btSend_Click(object sender, EventArgs e)
         {
-            btToken_Click(sender, e);
+            if (tbToken.Text.Length<5) btToken_Click(sender, e);
             System.Threading.Thread.Sleep(600);
             if (tstamp<2) { AddMessage(tbInfo,"获取token后重新点击发送按钮"); return; }
             btEnc_Click(sender,e);

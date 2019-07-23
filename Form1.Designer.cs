@@ -51,7 +51,7 @@
             this.tbIP.Name = "tbIP";
             this.tbIP.Size = new System.Drawing.Size(105, 21);
             this.tbIP.TabIndex = 0;
-            this.tbIP.Text = "10.0.1.151";
+            this.tbIP.Text = "10.0.1.202";
             // 
             // label1
             // 
@@ -77,7 +77,7 @@
             this.tbToken.Name = "tbToken";
             this.tbToken.Size = new System.Drawing.Size(205, 21);
             this.tbToken.TabIndex = 3;
-            this.tbToken.Text = "d58e8397a80fd4347d56e2b5fcd02e64";
+            this.tbToken.Text = "644d3dc8fa2eecaf1d30353228fa5d43";
             // 
             // btToken
             // 
@@ -104,6 +104,7 @@
             this.tbJson.Name = "tbJson";
             this.tbJson.Size = new System.Drawing.Size(354, 123);
             this.tbJson.TabIndex = 6;
+            this.tbJson.Text = "{\"id\":65005,\"method\":\"get_arming\",\"params\":[]}";
             // 
             // label3
             // 
@@ -159,7 +160,7 @@
             this.tbDid.Name = "tbDid";
             this.tbDid.Size = new System.Drawing.Size(57, 21);
             this.tbDid.TabIndex = 12;
-            this.tbDid.Text = "00030c12";
+            this.tbDid.Text = "0373CF36";
             // 
             // label5
             // 
